@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2019 by SaiVellanki (http://jsbin.com/pariwu/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <script id="sap-ui-bootstrap" type="text/javascript" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.m" data-sap-ui-xx-bindingSyntax="complex">
+  </script>
+
+  <!-- XML-based view definition -->
+  <script id="oView" type="sapui5/xmlview">
+    <mvc:View height="100%" controllerName="myView.Template" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:html="http://www.w3.org/1999/xhtml" class="viewPadding">
+      	<App>
+          <Page title="Reached the iframe">
+            <IconTabBar 
+              expanded="true"   
+              id="idIconTabBar" class="sapUiResponsiveContentPadding">
+              <items>
+                <IconTabFilter icon="sap-icon://begin">
+                  <content>
+                    <Button 
+                    text="Change Source"   
+                    press="onPress" />
+                  </content>
+                </IconTabFilter>
+                <IconTabFilter icon="sap-icon://map">
+                  <content>
+                    <html:iframe id="map_iframe" src="http://www.w3schools.com/" target="_top" height="100%" width="100%"></html:iframe>
+                  </content>
+                </IconTabFilter>
+              </items>
+            </IconTabBar>
+          </Page>
+        </App>  
+    </mvc:View>
+  </script>
+    </head>
+
+<body class="sapUiBody" role="application">
+  <div id="content"></div>
+</body>
+  
+  </head>
+<body>
+
+<script id="jsbin-javascript">
+      // Controller definition
+    sap.ui.define([
+      'jquery.sap.global',
+      'sap/ui/core/mvc/Controller',
+      'sap/ui/model/Filter',
+      'sap/ui/model/json/JSONModel'
+    ], function(jQuery, Controller, Filter, JSONModel) {
+      "use strict";
+
+      var cController = Controller.extend("myView.Template", {
+
+        onPress: function() {
+		  var oIconTabBar = this.getView().byId("idIconTabBar");
+		  var oItem = oIconTabBar.getItems()[1];
+		  oIconTabBar.setSelectedItem(oItem);
+          var oFrame = this.getView().byId("map_iframe");
+          var oFrameContent = oFrame.$()[0];
+          console.log(oFrameContent);
+          oFrameContent.setAttribute("src", "https://sapui5.hana.ondemand.com/sdk/"); 
+        }
+  
+      });
+
+      return cController;
+
+    });
+
+    // Instantiate the View and display
+    var oView = sap.ui.xmlview({
+      viewContent: jQuery('#oView').html()
+    });
+
+    oView.placeAt('content');
+</script>
+</body>
+</html>
